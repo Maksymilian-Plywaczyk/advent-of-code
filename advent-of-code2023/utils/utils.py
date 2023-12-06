@@ -1,6 +1,7 @@
 import time
 from functools import wraps
 from typing import Callable, List
+from pathlib import Path
 
 
 def timeit(func: Callable):
@@ -17,7 +18,7 @@ def timeit(func: Callable):
     return timeit_wrapper
 
 
-def get_context_from_file(filename: str) -> List[str]:
+def get_context_from_file(filename: Path) -> List[str]:
     try:
         with open(filename, "r") as file:
             return file.read().splitlines()
