@@ -24,9 +24,9 @@ def take_lines_to_search(lines: list[str]) -> list[list[Union[str, Match[str], A
                 index_line + 1 if index_line < _LAST_LINE else _LAST_LINE
             )  # range [0; infinity]
             line_to_search = (
-                    lines[y_up][start_substring:end_substring]
-                    + lines[y_down][start_substring:end_substring]
-                    + number_to_check
+                lines[y_up][start_substring:end_substring]
+                + lines[y_down][start_substring:end_substring]
+                + number_to_check
             )
             lines_to_search.append([line_to_search, match])
     return lines_to_search
@@ -43,13 +43,18 @@ def task_1(lines) -> int:
     return result
 
 
-def find_adjacent_gears(start_match: int, end_match: int, end_of_line: int, index_line: int, last_line: int, line: str,
-                        lines: list[str]) -> list[tuple[int, int]]:
+def find_adjacent_gears(
+    start_match: int,
+    end_match: int,
+    end_of_line: int,
+    index_line: int,
+    last_line: int,
+    line: str,
+    lines: list[str],
+) -> list[tuple[int, int]]:
     gears = []
     start_substring = start_match - 1 if start_match > 0 else 0
-    end_substring = (
-        end_match + 1 if end_match < end_of_line else end_of_line
-    )
+    end_substring = end_match + 1 if end_match < end_of_line else end_of_line
     y_down = index_line - 1 if index_line > 0 else 0  # range [- infinity;0 ]
     y_up = (
         index_line + 1 if index_line < last_line else last_line
@@ -76,8 +81,15 @@ def task_2(lines: list[str]) -> int:
     for index_line, line in enumerate(lines):
         _END_OF_LINE = len(line) - 1
         for match in re.finditer(_NUMBERS_PATTERN, line.strip()):
-            found_gears = find_adjacent_gears(match.start(), match.end(), _END_OF_LINE, index_line, _LAST_LINE, line,
-                                              lines)
+            found_gears = find_adjacent_gears(
+                match.start(),
+                match.end(),
+                _END_OF_LINE,
+                index_line,
+                _LAST_LINE,
+                line,
+                lines,
+            )
             for gear in found_gears:
                 gears[gear].append(int(match.group()))
     for key, value in gears.items():
@@ -85,6 +97,7 @@ def task_2(lines: list[str]) -> int:
             result += value[0] * value[1]
 
     return result
+
 
 if __name__ == "__main__":
     filepath = Path.cwd() / "input.txt"
