@@ -1,5 +1,5 @@
-from collections import defaultdict
 import re
+from collections import defaultdict
 from pathlib import Path
 from re import Match
 from typing import Any, Union

@@ -1,7 +1,8 @@
-from utils.utils import timeit, get_context_from_file
-from pathlib import Path
 import operator
 from functools import reduce
+from pathlib import Path
+
+from utils.utils import get_context_from_file, timeit
 
 
 @timeit

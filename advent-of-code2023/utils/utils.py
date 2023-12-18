@@ -1,7 +1,7 @@
 import time
 from functools import wraps
-from typing import Callable, List
 from pathlib import Path
+from typing import Callable, List
 
 
 def timeit(func: Callable):
