@@ -3,7 +3,6 @@ from functools import wraps
 from pathlib import Path
 from typing import Callable, List
 
-
 def timeit(func: Callable):
     @wraps(func)
     def timeit_wrapper(*args, **kwargs):
@@ -18,9 +17,10 @@ def timeit(func: Callable):
     return timeit_wrapper
 
 
-def get_context_from_file(filename: Path) -> List[str]:
+def get_context_from_file(filename: str) -> List[str]:
+    filename_path = Path.cwd() / filename
     try:
-        with open(filename, "r") as file:
+        with open(filename_path, "r") as file:
             return file.read().splitlines()
     except (FileExistsError, FileNotFoundError) as e:
         raise e

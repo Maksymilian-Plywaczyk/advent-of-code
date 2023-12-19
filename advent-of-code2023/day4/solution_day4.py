@@ -1,6 +1,6 @@
 import re
 from collections import defaultdict
-from pathlib import Path
+
 
 from utils.utils import get_context_from_file
 
@@ -43,7 +43,6 @@ def task_2(lines: list[str]) -> int:
 
 
 if __name__ == "__main__":
-    path = Path.cwd() / "input.txt"
-    file_context = get_context_from_file(path)
+    file_context = get_context_from_file("input.txt")
     print(task_1(file_context))
     print(task_2(file_context))

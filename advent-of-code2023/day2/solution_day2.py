@@ -1,6 +1,7 @@
 import operator
+
 from functools import reduce
-from pathlib import Path
+
 
 from utils.utils import get_context_from_file, timeit
 
@@ -44,7 +45,6 @@ def task_2(lines: list[str]) -> int:
 
 
 if __name__ == "__main__":
-    filepath = Path.cwd() / "input.txt"
-    file_context = get_context_from_file(filepath)
+    file_context = get_context_from_file("input.txt")
     task_1(file_context)
     task_2(file_context)

@@ -1,6 +1,5 @@
 import re
 from collections import defaultdict
-from pathlib import Path
 from re import Match
 from typing import Any, Union
 
@@ -100,8 +99,7 @@ def task_2(lines: list[str]) -> int:
 
 
 if __name__ == "__main__":
-    filepath = Path.cwd() / "input.txt"
-    file_context = get_context_from_file(filepath)
+    file_context = get_context_from_file("input.txt")
     lines_to_search = take_lines_to_search(file_context)
     print(task_1(lines_to_search))
     print(task_2(file_context))

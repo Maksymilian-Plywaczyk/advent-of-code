@@ -54,7 +54,6 @@ def task_2(lines: List[str]):
 
 
 if __name__ == "__main__":
-    input_path = Path.cwd() / "input.txt"
-    file_context = get_context_from_file(input_path)
-    # print(task_1(file_context))
+    file_context = get_context_from_file("input.txt")
+    print(task_1(file_context))
     print(task_2(file_context))
