@@ -1,6 +1,14 @@
 from utils.utils import get_context_from_file
-from typing import NamedTuple
+from typing import NamedTuple, Any
 import re
+
+
+class MapSeeds(NamedTuple):
+    start_range: int
+    length_range: int
+
+    def __repr__(self):
+        return f"Range start {self.start_range}, length: {self.length_range}"
 
 
 class Ranges(NamedTuple):
@@ -34,7 +42,6 @@ def transform_to_range(ranges_numbers: list[tuple[int, int, int]]):
 def get_new_numbers(ranges: list[Ranges], seeds: tuple[int, ...]):
     def map_new_numbers(seed: int):
         for _range in ranges:
-            print(seed, _range)
             if (
                 _range.source_range_start
                 <= seed
@@ -52,7 +59,17 @@ def get_new_numbers(ranges: list[Ranges], seeds: tuple[int, ...]):
     return new_numbers
 
 
-def task_1(lines: list[str]) -> list[int]:
+def chunk_seeds_to_pairs(seeds: tuple[int, ...], N=2):
+    return [MapSeeds(*seeds[i : i + N]) for i in range(0, len(seeds) - 1, N)]
+
+
+def get_new_seeds(seed: MapSeeds) -> list[int]:
+    return [
+        seed for seed in range(seed.start_range, seed.length_range + seed.start_range)
+    ]
+
+
+def task_1(lines: list[str]) -> int:
     # Each line within a map contains three numbers: the destination range start, the source range start, and the range length.
     # Range length determinate how many steps we can move from destination range start and the source range start example: 50, 80, 3 it will
     # The destination start from 50 ends to 52, source range start from 80 ends to 82, end 50=80,51=82,52=82
@@ -67,9 +84,32 @@ def task_1(lines: list[str]) -> list[int]:
         )
         ranges = transform_to_range(ranges_numbers)
         numbers = get_new_numbers(ranges, numbers)
-    return numbers
+    return min(numbers)
+
+
+def task_2(lines: list[str]):
+    # Seeds line describes ranges of seed numbers. Seeds come in pairs, first number of pair is start of the range second is the length of
+    # the range.
+    _seeds = get_planted_seeds(lines)
+    _seeds = chunk_seeds_to_pairs(_seeds)
+    results = []
+    for seed in _seeds:
+        seeds = tuple(get_new_seeds(seed))
+        for line in lines[1:]:
+            ranges_numbers = list(
+                filter(
+                    lambda x: x is not None,
+                    list(map(lambda x: get_ranges_from_line(x), line.split("\n"))),
+                )
+            )
+            ranges = transform_to_range(ranges_numbers)
+            numbers = get_new_numbers(ranges, seeds)
+            results.append(min(numbers))
+        results = [min(results)]
+    return results[0]
 
 
 if __name__ == "__main__":
     file_context = get_context_from_file("input.txt", True)
-    print(min(task_1(file_context)))
+    print(task_1(file_context))
+    print(task_2(file_context))
